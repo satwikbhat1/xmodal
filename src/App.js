@@ -18,43 +18,48 @@ function App() {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = (e) => {
+  e.preventDefault();
 
-    const { username, email, phone, dob } = formValues;
+  const { username, email, phone, dob } = formValues;
 
-    if (!username) {
-      alert("Please fill in the username field.");
-      return;
-    }
+  if (!username) {
+    alert("Please fill in the username field.");
+    return;
+  }
 
-    if (!email) {
-      alert("Please fill in the email field.");
-      return;
-    } else if (!email.includes("@")) {
-      alert("Invalid email. Please check your email address.");
-      return;
-    }
+  if (!email) {
+    alert("Please fill in the email field.");
+    return;
+  } else if (!email.includes("@")) {
+    alert("Invalid email. Please check your email address.");
+    return;
+  }
 
-    if (!phone) {
-      alert("Please fill in the phone number field.");
-      return;
-    } else if (phone.length !== 10 || isNaN(phone)) {
-      alert("Invalid phone number. Please enter a 10-digit phone number.");
-      return;
-    }
+  if (!phone) {
+    alert("Please fill in the phone number field.");
+    return;
+  } else if (phone.length !== 10 || isNaN(phone)) { // Add numeric check here
+    alert("Invalid phone number. Please enter a 10-digit phone number.");
+    return;
+  }
 
-    if (!dob) {
-      alert("Please fill in the date of birth field.");
-      return;
-    } else if (new Date(dob) > new Date()) {
-      alert("Invalid date of birth. Please enter a past date.");
-      return;
-    }
+  if (!dob) {
+    alert("Please fill in the date of birth field.");
+    return;
+  }
 
-    alert("Form submitted successfully!");
-    setIsModalOpen(false);
-  };
+  const enteredDob = new Date(dob);
+  const today = new Date();
+  if (enteredDob > today) {
+    alert("Invalid date of birth. Please enter a past date.");
+    return;
+  }
+
+  alert("Form submitted successfully!");
+  setIsModalOpen(false);
+};
+
 
   const closeModal = () => {
     setIsModalOpen(false);
