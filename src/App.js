@@ -18,16 +18,20 @@ function App() {
     }));
   };
 
- const handleSubmit = (e) => {
+ 
+const handleSubmit = (e) => {
   e.preventDefault();
 
+  // Get form values
   const { username, email, phone, dob } = formValues;
 
+  // Validation for Username
   if (!username) {
     alert("Please fill in the username field.");
     return;
   }
 
+  // Validation for Email
   if (!email) {
     alert("Please fill in the email field.");
     return;
@@ -36,19 +40,22 @@ function App() {
     return;
   }
 
+  // Validation for Phone Number
   if (!phone) {
     alert("Please fill in the phone number field.");
     return;
-  } else if (phone.length !== 10 || isNaN(phone)) { // Add numeric check here
+  } else if (phone.length !== 10 || isNaN(phone)) {  // Checks length and ensures only numbers
     alert("Invalid phone number. Please enter a 10-digit phone number.");
     return;
   }
 
+  // Validation for Date of Birth
   if (!dob) {
     alert("Please fill in the date of birth field.");
     return;
   }
 
+  // Checks if DOB is not in the future
   const enteredDob = new Date(dob);
   const today = new Date();
   if (enteredDob > today) {
@@ -56,6 +63,7 @@ function App() {
     return;
   }
 
+  // If all validations pass, proceed with submission
   alert("Form submitted successfully!");
   setIsModalOpen(false);
 };
