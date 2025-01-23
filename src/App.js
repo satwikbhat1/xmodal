@@ -9,6 +9,7 @@ function App() {
     phone: "",
     dob: "",
   });
+  const [errorMessages, setErrorMessages] = useState([]);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -20,44 +21,44 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const { username, email, phone, dob } = formValues;
+    const errors = [];
 
     if (!username) {
-      alert("Please fill in the username field.");
-      return;
+      errors.push("Please fill in the username field.");
     }
 
     if (!email) {
-      alert("Please fill in the email field.");
-      return;
+      errors.push("Please fill in the email field.");
     } else if (!email.includes("@")) {
-      alert("Invalid email. Please check your email address.");
-      return;
+      errors.push("Invalid email. Please check your email address.");
     }
 
     if (!phone) {
-      alert("Please fill in the phone number field.");
-      return;
+      errors.push("Please fill in the phone number field.");
     } else if (phone.length !== 10 || isNaN(phone)) {
-      alert("Invalid phone number. Please enter a 10-digit phone number.");
-      return;
+      errors.push("Invalid phone number. Please enter a 10-digit phone number.");
     }
 
     if (!dob) {
-      alert("Please fill in the date of birth field.");
-      return;
+      errors.push("Please fill in the date of birth field.");
     } else if (new Date(dob) > new Date()) {
-      alert("Invalid date of birth. Please enter a past date.");
+      errors.push("Invalid date of birth. Please enter a past date.");
+    }
+
+    if (errors.length > 0) {
+      setErrorMessages(errors);
       return;
     }
 
     alert("Form submitted successfully!");
     setIsModalOpen(false);
+    setErrorMessages([]); // Clear errors on successful submission
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setErrorMessages([]); // Clear errors when closing the modal
   };
 
   const openModal = () => {
@@ -75,6 +76,15 @@ function App() {
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <form onSubmit={handleSubmit}>
               <h2 style={{ textAlign: "center" }}>Fill Details</h2>
+              {errorMessages.length > 0 && (
+                <div className="error-messages">
+                  {errorMessages.map((error, index) => (
+                    <p key={index} style={{ color: "red" }}>
+                      {error}
+                    </p>
+                  ))}
+                </div>
+              )}
               <label htmlFor="username">Username:</label>
               <input
                 type="text"
